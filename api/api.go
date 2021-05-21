@@ -1,14 +1,21 @@
 package api
 
 import (
+	"log"
+
+	"github.com/solrac97gr/cryptoAPI/routes"
+
 	"github.com/gofiber/fiber/v2"
 )
 
-//Api init
+//Init : Fiber Api Initialization and port definition
 func Init() {
 	app := fiber.New()
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World!")
-	})
-	app.Listen(":3000")
+	app.Post("/decrypt", routes.DecryptTextMessage)
+	app.Post("/encrypt", routes.EncryptTextMessage)
+
+	err := app.Listen(":3000")
+	if err != nil {
+		log.Fatal(err)
+	}
 }
