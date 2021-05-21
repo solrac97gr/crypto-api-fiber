@@ -17,10 +17,8 @@ var FirebaseCtx context.Context
 func InitFirebase() {
 	ctx := context.Background()
 	FirebaseCtx = ctx
-	//Full Path credentials
 	opt := option.WithCredentialsJSON([]byte(configCred.GetFirebaseCredentials()))
 	conf := &firebase.Config{
-		//Replace Database URL here
 		DatabaseURL: configCred.GetFirebaseDatabaseUrl(),
 	}
 	app, err := firebase.NewApp(ctx, conf, opt)

@@ -14,7 +14,7 @@ The nex you will see it's a docker instance with 5 replicas of the API this will
 - For cache system I use a simple Library permit me store the data as a "localstorage" and I create a logic for the number of times the key is saved
 - Work with the Async call to a external API, I use for that a Package to Simulate the Async/Await behavior of other languages
 - I decide use firebase because the facility for deploy and maintain
-- Also I decided use Docker not only for make the deploy more easy, even for increase the performance implementing a load balancer with 5 replicas, every replica can make part of the request send it to the principal server
+- Also I decided use Docker not only for make the deploy more easy, even for increase the performance implementing a load balancer with 5 replicas, every replica can make part of the request send it to the principal server **(Important: That means every Api will have a independent key and a independent counter, but every key will be only used 3 times until the expiration)**
 
 **Your database will looks like this:**
 
