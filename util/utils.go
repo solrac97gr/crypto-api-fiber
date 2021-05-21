@@ -19,15 +19,15 @@ func Encrypt(stringToEncrypt string, keyString string) (encryptedString string) 
 	Key32 = key[0:32]
 	block, err := aes.NewCipher(Key32)
 	if err != nil {
-		panic(err.Error())
+		fmt.Println(err)
 	}
 	aesGCM, err := cipher.NewGCM(block)
 	if err != nil {
-		panic(err.Error())
+		fmt.Println(err)
 	}
 	nonce := make([]byte, aesGCM.NonceSize())
 	if _, err = io.ReadFull(rand.Reader, nonce); err != nil {
-		panic(err.Error())
+		fmt.Println(err)
 	}
 	ciphertext := aesGCM.Seal(nonce, nonce, plaintext, nil)
 	return fmt.Sprintf("%x", ciphertext)
@@ -36,25 +36,26 @@ func Encrypt(stringToEncrypt string, keyString string) (encryptedString string) 
 func Decrypt(encryptedString string, keyString string) (decryptedString string) {
 	key, _ := hex.DecodeString(keyString)
 	enc, _ := hex.DecodeString(encryptedString)
-	block, err := aes.NewCipher(key)
+	Key32 = key[0:32]
+	block, err := aes.NewCipher(Key32)
 	if err != nil {
-		panic(err.Error())
+		fmt.Println(err)
 	}
 	aesGCM, err := cipher.NewGCM(block)
 	if err != nil {
-		panic(err.Error())
+		fmt.Println(err)
 	}
 	nonceSize := aesGCM.NonceSize()
 	nonce, ciphertext := enc[:nonceSize], enc[nonceSize:]
 	plaintext, err := aesGCM.Open(nil, nonce, ciphertext, nil)
 	if err != nil {
-		panic(err.Error())
+		fmt.Println(err)
 	}
 
 	return fmt.Sprintf("%s", plaintext)
 }
 
-func Convert(b []byte) string {
+func ConvertToByteString(b []byte) string {
 	s := make([]string, len(b))
 	for i := range b {
 		s[i] = strconv.Itoa(int(b[i]))

@@ -8,10 +8,13 @@ import (
 
 // DecryptTextMessage : Decrypt the information send it throw the api
 func DecryptTextMessage(c *fiber.Ctx) error {
-	encryptedMessage := new(models.Message)
-	if err := c.BodyParser(encryptedMessage); err != nil {
-		return err
+	ID := c.Params("id")
+	encryptedMessage := new(models.ReturnedMsg)
+	encryptedMessage.SetID(ID)
+	error, decryptMessage := services.DecryptTextMessage(*encryptedMessage)
+	if error {
+		c.SendStatus(fiber.StatusBadRequest)
+		return c.Send([]byte("The ID didn't Exist"))
 	}
-	decryptMessage := services.DecryptTextMessage(*encryptedMessage)
 	return c.JSON(decryptMessage)
 }
